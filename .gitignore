@@ -1,0 +1,9 @@
+data/
+models/*.txt
+models/*.pkl
+__pycache__/
+*.pyc
+.venv/
+config.local.toml
+reports/week_*.md
+reports/log_*.txt

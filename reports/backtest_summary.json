@@ -1,0 +1,630 @@
+{
+  "point_mae_by_position": {
+    "QB": {
+      "model": 5.498494816774681,
+      "last3_avg": 6.5287650046168055,
+      "ewm_avg": 6.218693602982573,
+      "season_avg": 6.333782281699525
+    },
+    "RB": {
+      "model": 4.109680239120831,
+      "last3_avg": 4.4296660773914756,
+      "ewm_avg": 4.210182737644285,
+      "season_avg": 4.263493830663542
+    },
+    "TE": {
+      "model": 3.026119324272874,
+      "last3_avg": 3.3443864452150636,
+      "ewm_avg": 3.1289497535100326,
+      "season_avg": 3.18596415015497
+    },
+    "WR": {
+      "model": 3.885369136069705,
+      "last3_avg": 4.168728037842487,
+      "ewm_avg": 3.9402047523448926,
+      "season_avg": 4.024830581536106
+    }
+  },
+  "floor_ceiling_coverage": 0.6953512515861114,
+  "ranking_by_position": {
+    "QB": {
+      "spearman_model": 0.3305,
+      "pairwise_model": 0.6143,
+      "spearman_ecr": 0.33,
+      "pairwise_ecr": 0.6147,
+      "spearman_ecr_half": 0.33,
+      "pairwise_ecr_half": 0.6147,
+      "spearman_blend": 0.3408,
+      "pairwise_blend": 0.6189,
+      "spearman_blend_half": 0.341,
+      "pairwise_blend_half": 0.6191,
+      "spearman_last3": 0.2065,
+      "pairwise_last3": 0.5731
+    },
+    "RB": {
+      "spearman_model": 0.4019,
+      "pairwise_model": 0.6421,
+      "spearman_ecr": 0.4231,
+      "pairwise_ecr": 0.6487,
+      "spearman_ecr_half": 0.418,
+      "pairwise_ecr_half": 0.6473,
+      "spearman_blend": 0.4203,
+      "pairwise_blend": 0.6477,
+      "spearman_blend_half": 0.4192,
+      "pairwise_blend_half": 0.6466,
+      "spearman_last3": 0.3115,
+      "pairwise_last3": 0.6068
+    },
+    "TE": {
+      "spearman_model": 0.2691,
+      "pairwise_model": 0.596,
+      "spearman_ecr": 0.2569,
+      "pairwise_ecr": 0.592,
+      "spearman_ecr_half": 0.2625,
+      "pairwise_ecr_half": 0.5938,
+      "spearman_blend": 0.2741,
+      "pairwise_blend": 0.5974,
+      "spearman_blend_half": 0.2788,
+      "pairwise_blend_half": 0.6009,
+      "spearman_last3": 0.1181,
+      "pairwise_last3": 0.5407
+    },
+    "WR": {
+      "spearman_model": 0.3131,
+      "pairwise_model": 0.6088,
+      "spearman_ecr": 0.3551,
+      "pairwise_ecr": 0.6242,
+      "spearman_ecr_half": 0.3467,
+      "pairwise_ecr_half": 0.6212,
+      "spearman_blend": 0.3434,
+      "pairwise_blend": 0.6188,
+      "spearman_blend_half": 0.3443,
+      "pairwise_blend_half": 0.6194,
+      "spearman_last3": 0.2131,
+      "pairwise_last3": 0.5723
+    }
+  },
+  "ranking_by_season": {
+    "2022": {
+      "pairwise_model": 0.6247,
+      "pairwise_ecr": 0.624,
+      "pairwise_ecr_half": 0.6217,
+      "pairwise_blend": 0.6298,
+      "pairwise_blend_half": 0.6294,
+      "pairwise_last3": 0.5782
+    },
+    "2023": {
+      "pairwise_model": 0.6113,
+      "pairwise_ecr": 0.6137,
+      "pairwise_ecr_half": 0.6118,
+      "pairwise_blend": 0.6151,
+      "pairwise_blend_half": 0.6148,
+      "pairwise_last3": 0.5703
+    },
+    "2024": {
+      "pairwise_model": 0.6194,
+      "pairwise_ecr": 0.6225,
+      "pairwise_ecr_half": 0.6217,
+      "pairwise_blend": 0.6243,
+      "pairwise_blend_half": 0.6238,
+      "pairwise_last3": 0.5827
+    },
+    "2025": {
+      "pairwise_model": 0.6028,
+      "pairwise_ecr": 0.6101,
+      "pairwise_ecr_half": 0.6115,
+      "pairwise_blend": 0.6084,
+      "pairwise_blend_half": 0.6118,
+      "pairwise_last3": 0.5652
+    },
+    "2026": {
+      "pairwise_model": 0.621,
+      "pairwise_ecr": 0.6367,
+      "pairwise_ecr_half": 0.6377,
+      "pairwise_blend": 0.6305,
+      "pairwise_blend_half": 0.6327,
+      "pairwise_last3": 0.5692
+    }
+  },
+  "n_ranked_player_weeks": 22194,
+  "weeks_compared": 72,
+  "model_beats_ecr_share_of_position_weeks": 0.4280701754385965,
+  "ci_model_vs_ecr": {
+    "QB": {
+      "diff_pp": -0.04,
+      "ci_lo": -0.91,
+      "ci_hi": 0.83,
+      "n_weeks": 71
+    },
+    "RB": {
+      "diff_pp": -0.67,
+      "ci_lo": -1.33,
+      "ci_hi": 0.0,
+      "n_weeks": 71
+    },
+    "TE": {
+      "diff_pp": 0.4,
+      "ci_lo": -0.72,
+      "ci_hi": 1.53,
+      "n_weeks": 71
+    },
+    "WR": {
+      "diff_pp": -1.54,
+      "ci_lo": -2.23,
+      "ci_hi": -0.85,
+      "n_weeks": 72
+    }
+  },
+  "ci_blend_vs_ecr": {
+    "QB": {
+      "diff_pp": 0.41,
+      "ci_lo": -0.17,
+      "ci_hi": 0.99,
+      "n_weeks": 71
+    },
+    "RB": {
+      "diff_pp": -0.1,
+      "ci_lo": -0.5,
+      "ci_hi": 0.3,
+      "n_weeks": 71
+    },
+    "TE": {
+      "diff_pp": 0.54,
+      "ci_lo": -0.24,
+      "ci_hi": 1.32,
+      "n_weeks": 71
+    },
+    "WR": {
+      "diff_pp": -0.54,
+      "ci_lo": -0.97,
+      "ci_hi": -0.12,
+      "n_weeks": 72
+    }
+  },
+  "ci_ecr_half_vs_ecr": {
+    "QB": {
+      "diff_pp": -0.01,
+      "ci_lo": -0.03,
+      "ci_hi": 0.02,
+      "n_weeks": 71
+    },
+    "RB": {
+      "diff_pp": -0.14,
+      "ci_lo": -0.41,
+      "ci_hi": 0.13,
+      "n_weeks": 71
+    },
+    "TE": {
+      "diff_pp": 0.19,
+      "ci_lo": -0.43,
+      "ci_hi": 0.8,
+      "n_weeks": 71
+    },
+    "WR": {
+      "diff_pp": -0.3,
+      "ci_lo": -0.61,
+      "ci_hi": 0.02,
+      "n_weeks": 72
+    }
+  },
+  "ci_blend_half_vs_blend": {
+    "QB": {
+      "diff_pp": 0.02,
+      "ci_lo": -0.01,
+      "ci_hi": 0.05,
+      "n_weeks": 71
+    },
+    "RB": {
+      "diff_pp": -0.11,
+      "ci_lo": -0.3,
+      "ci_hi": 0.08,
+      "n_weeks": 71
+    },
+    "TE": {
+      "diff_pp": 0.35,
+      "ci_lo": -0.16,
+      "ci_hi": 0.86,
+      "n_weeks": 71
+    },
+    "WR": {
+      "diff_pp": 0.07,
+      "ci_lo": -0.13,
+      "ci_hi": 0.26,
+      "n_weeks": 72
+    }
+  },
+  "sleeper_point_mae_by_position": {
+    "QB": {
+      "model": 5.765091209253536,
+      "sleeper": 6.24223898858075,
+      "avg_model_sleeper": 5.847968499169484,
+      "n": 2452
+    },
+    "RB": {
+      "model": 4.244679753880041,
+      "sleeper": 4.021758173001721,
+      "avg_model_sleeper": 4.068094707157404,
+      "n": 6393
+    },
+    "TE": {
+      "model": 3.1570743452946504,
+      "sleeper": 3.0555883526126846,
+      "avg_model_sleeper": 3.051984425763059,
+      "n": 5014
+    },
+    "WR": {
+      "model": 4.052410212552533,
+      "sleeper": 3.897729396560294,
+      "avg_model_sleeper": 3.9288212298986473,
+      "n": 10059
+    }
+  },
+  "three_way": {
+    "n_player_weeks": 20942,
+    "pairwise_by_position": {
+      "QB": {
+        "pairwise_model": 0.6134,
+        "pairwise_ecr": 0.6141,
+        "pairwise_ecr_half": 0.6141,
+        "pairwise_sleeper": 0.6022,
+        "pairwise_blend": 0.6181,
+        "pairwise_blend3": 0.6167,
+        "pairwise_blend3_half": 0.6167,
+        "pairwise_blend3_pts": 0.6179,
+        "pairwise_blend3_half_pts": 0.6179
+      },
+      "RB": {
+        "pairwise_model": 0.6427,
+        "pairwise_ecr": 0.6491,
+        "pairwise_ecr_half": 0.6478,
+        "pairwise_sleeper": 0.6534,
+        "pairwise_blend": 0.6483,
+        "pairwise_blend3": 0.6538,
+        "pairwise_blend3_half": 0.6535,
+        "pairwise_blend3_pts": 0.6543,
+        "pairwise_blend3_half_pts": 0.6536
+      },
+      "TE": {
+        "pairwise_model": 0.596,
+        "pairwise_ecr": 0.592,
+        "pairwise_ecr_half": 0.5938,
+        "pairwise_sleeper": 0.598,
+        "pairwise_blend": 0.5974,
+        "pairwise_blend3": 0.5999,
+        "pairwise_blend3_half": 0.6018,
+        "pairwise_blend3_pts": 0.6012,
+        "pairwise_blend3_half_pts": 0.6044
+      },
+      "WR": {
+        "pairwise_model": 0.609,
+        "pairwise_ecr": 0.6244,
+        "pairwise_ecr_half": 0.6214,
+        "pairwise_sleeper": 0.6215,
+        "pairwise_blend": 0.619,
+        "pairwise_blend3": 0.6232,
+        "pairwise_blend3_half": 0.623,
+        "pairwise_blend3_pts": 0.6236,
+        "pairwise_blend3_half_pts": 0.6237
+      }
+    },
+    "pairwise_by_season": {
+      "2022": {
+        "pairwise_model": 0.6246,
+        "pairwise_ecr": 0.6239,
+        "pairwise_ecr_half": 0.6217,
+        "pairwise_sleeper": 0.6252,
+        "pairwise_blend": 0.6298,
+        "pairwise_blend3": 0.6315,
+        "pairwise_blend3_half": 0.6319,
+        "pairwise_blend3_pts": 0.632,
+        "pairwise_blend3_half_pts": 0.6319
+      },
+      "2023": {
+        "pairwise_model": 0.6108,
+        "pairwise_ecr": 0.6139,
+        "pairwise_ecr_half": 0.612,
+        "pairwise_sleeper": 0.6088,
+        "pairwise_blend": 0.6147,
+        "pairwise_blend3": 0.6154,
+        "pairwise_blend3_half": 0.6148,
+        "pairwise_blend3_pts": 0.616,
+        "pairwise_blend3_half_pts": 0.6155
+      },
+      "2024": {
+        "pairwise_model": 0.6194,
+        "pairwise_ecr": 0.6225,
+        "pairwise_ecr_half": 0.6217,
+        "pairwise_sleeper": 0.6233,
+        "pairwise_blend": 0.6243,
+        "pairwise_blend3": 0.6291,
+        "pairwise_blend3_half": 0.6283,
+        "pairwise_blend3_pts": 0.6289,
+        "pairwise_blend3_half_pts": 0.6293
+      },
+      "2025": {
+        "pairwise_model": 0.6024,
+        "pairwise_ecr": 0.6092,
+        "pairwise_ecr_half": 0.6106,
+        "pairwise_sleeper": 0.61,
+        "pairwise_blend": 0.6078,
+        "pairwise_blend3": 0.6118,
+        "pairwise_blend3_half": 0.6138,
+        "pairwise_blend3_pts": 0.6132,
+        "pairwise_blend3_half_pts": 0.615
+      },
+      "2026": {
+        "pairwise_model": 0.6224,
+        "pairwise_ecr": 0.6381,
+        "pairwise_ecr_half": 0.6391,
+        "pairwise_sleeper": 0.6334,
+        "pairwise_blend": 0.6322,
+        "pairwise_blend3": 0.6346,
+        "pairwise_blend3_half": 0.6356,
+        "pairwise_blend3_pts": 0.6372,
+        "pairwise_blend3_half_pts": 0.6394
+      }
+    },
+    "pairwise_clean_seasons_by_position": {
+      "QB": {
+        "pairwise_model": 0.6166,
+        "pairwise_ecr": 0.6132,
+        "pairwise_ecr_half": 0.6129,
+        "pairwise_sleeper": 0.6051,
+        "pairwise_blend": 0.6182,
+        "pairwise_blend3": 0.6186,
+        "pairwise_blend3_half": 0.6187,
+        "pairwise_blend3_pts": 0.619,
+        "pairwise_blend3_half_pts": 0.619
+      },
+      "RB": {
+        "pairwise_model": 0.6434,
+        "pairwise_ecr": 0.6561,
+        "pairwise_ecr_half": 0.6563,
+        "pairwise_sleeper": 0.6598,
+        "pairwise_blend": 0.6505,
+        "pairwise_blend3": 0.6576,
+        "pairwise_blend3_half": 0.6577,
+        "pairwise_blend3_pts": 0.6573,
+        "pairwise_blend3_half_pts": 0.6581
+      },
+      "TE": {
+        "pairwise_model": 0.5986,
+        "pairwise_ecr": 0.5991,
+        "pairwise_ecr_half": 0.6008,
+        "pairwise_sleeper": 0.5966,
+        "pairwise_blend": 0.6028,
+        "pairwise_blend3": 0.6018,
+        "pairwise_blend3_half": 0.6018,
+        "pairwise_blend3_pts": 0.6046,
+        "pairwise_blend3_half_pts": 0.6069
+      },
+      "WR": {
+        "pairwise_model": 0.6081,
+        "pairwise_ecr": 0.6222,
+        "pairwise_ecr_half": 0.6174,
+        "pairwise_sleeper": 0.6176,
+        "pairwise_blend": 0.6176,
+        "pairwise_blend3": 0.6212,
+        "pairwise_blend3_half": 0.6198,
+        "pairwise_blend3_pts": 0.6216,
+        "pairwise_blend3_half_pts": 0.6205
+      }
+    },
+    "ci_model_vs_sleeper": {
+      "QB": {
+        "diff_pp": 1.12,
+        "ci_lo": 0.16,
+        "ci_hi": 2.07,
+        "n_weeks": 71
+      },
+      "RB": {
+        "diff_pp": -1.07,
+        "ci_lo": -1.71,
+        "ci_hi": -0.43,
+        "n_weeks": 71
+      },
+      "TE": {
+        "diff_pp": -0.2,
+        "ci_lo": -1.44,
+        "ci_hi": 1.04,
+        "n_weeks": 71
+      },
+      "WR": {
+        "diff_pp": -1.25,
+        "ci_lo": -1.94,
+        "ci_hi": -0.57,
+        "n_weeks": 72
+      }
+    },
+    "ci_ecr_vs_sleeper": {
+      "QB": {
+        "diff_pp": 1.19,
+        "ci_lo": 0.37,
+        "ci_hi": 2.01,
+        "n_weeks": 71
+      },
+      "RB": {
+        "diff_pp": -0.43,
+        "ci_lo": -0.91,
+        "ci_hi": 0.05,
+        "n_weeks": 71
+      },
+      "TE": {
+        "diff_pp": -0.6,
+        "ci_lo": -1.65,
+        "ci_hi": 0.45,
+        "n_weeks": 71
+      },
+      "WR": {
+        "diff_pp": 0.29,
+        "ci_lo": -0.21,
+        "ci_hi": 0.78,
+        "n_weeks": 72
+      }
+    },
+    "ci_blend_vs_sleeper": {
+      "QB": {
+        "diff_pp": 1.58,
+        "ci_lo": 0.76,
+        "ci_hi": 2.41,
+        "n_weeks": 71
+      },
+      "RB": {
+        "diff_pp": -0.51,
+        "ci_lo": -1.01,
+        "ci_hi": -0.0,
+        "n_weeks": 71
+      },
+      "TE": {
+        "diff_pp": -0.06,
+        "ci_lo": -1.21,
+        "ci_hi": 1.09,
+        "n_weeks": 71
+      },
+      "WR": {
+        "diff_pp": -0.25,
+        "ci_lo": -0.79,
+        "ci_hi": 0.3,
+        "n_weeks": 72
+      }
+    },
+    "ci_blend3_vs_ecr": {
+      "QB": {
+        "diff_pp": 0.26,
+        "ci_lo": -0.32,
+        "ci_hi": 0.84,
+        "n_weeks": 71
+      },
+      "RB": {
+        "diff_pp": 0.47,
+        "ci_lo": 0.08,
+        "ci_hi": 0.86,
+        "n_weeks": 71
+      },
+      "TE": {
+        "diff_pp": 0.79,
+        "ci_lo": 0.07,
+        "ci_hi": 1.52,
+        "n_weeks": 71
+      },
+      "WR": {
+        "diff_pp": -0.12,
+        "ci_lo": -0.5,
+        "ci_hi": 0.26,
+        "n_weeks": 72
+      }
+    },
+    "ci_blend3_half_pts_vs_blend3_pts": {
+      "QB": {
+        "diff_pp": 0.0,
+        "ci_lo": 0.0,
+        "ci_hi": 0.0,
+        "n_weeks": 71
+      },
+      "RB": {
+        "diff_pp": -0.07,
+        "ci_lo": -0.21,
+        "ci_hi": 0.08,
+        "n_weeks": 71
+      },
+      "TE": {
+        "diff_pp": 0.31,
+        "ci_lo": 0.02,
+        "ci_hi": 0.61,
+        "n_weeks": 71
+      },
+      "WR": {
+        "diff_pp": 0.01,
+        "ci_lo": -0.1,
+        "ci_hi": 0.12,
+        "n_weeks": 72
+      }
+    },
+    "ci_blend3_half_pts_vs_ecr": {
+      "QB": {
+        "diff_pp": 0.38,
+        "ci_lo": -0.2,
+        "ci_hi": 0.96,
+        "n_weeks": 71
+      },
+      "RB": {
+        "diff_pp": 0.45,
+        "ci_lo": 0.1,
+        "ci_hi": 0.8,
+        "n_weeks": 71
+      },
+      "TE": {
+        "diff_pp": 1.24,
+        "ci_lo": 0.62,
+        "ci_hi": 1.87,
+        "n_weeks": 71
+      },
+      "WR": {
+        "diff_pp": -0.07,
+        "ci_lo": -0.44,
+        "ci_hi": 0.29,
+        "n_weeks": 72
+      }
+    },
+    "ci_blend3_half_pts_vs_sleeper": {
+      "QB": {
+        "diff_pp": 1.57,
+        "ci_lo": 1.0,
+        "ci_hi": 2.13,
+        "n_weeks": 71
+      },
+      "RB": {
+        "diff_pp": 0.03,
+        "ci_lo": -0.31,
+        "ci_hi": 0.36,
+        "n_weeks": 71
+      },
+      "TE": {
+        "diff_pp": 0.64,
+        "ci_lo": -0.1,
+        "ci_hi": 1.38,
+        "n_weeks": 71
+      },
+      "WR": {
+        "diff_pp": 0.22,
+        "ci_lo": -0.14,
+        "ci_hi": 0.58,
+        "n_weeks": 72
+      }
+    },
+    "mae_by_position": {
+      "QB": {
+        "proj": 5.797,
+        "sleeper_proj": 6.23,
+        "ecr_pts": 5.835,
+        "ecr_half_pts": 5.835,
+        "blend3_pts": 5.817,
+        "blend3_half_pts": 5.817
+      },
+      "RB": {
+        "proj": 4.286,
+        "sleeper_proj": 4.076,
+        "ecr_pts": 4.264,
+        "ecr_half_pts": 4.278,
+        "blend3_pts": 4.151,
+        "blend3_half_pts": 4.15
+      },
+      "TE": {
+        "proj": 3.179,
+        "sleeper_proj": 3.082,
+        "ecr_pts": 3.184,
+        "ecr_half_pts": 3.186,
+        "blend3_pts": 3.098,
+        "blend3_half_pts": 3.094
+      },
+      "WR": {
+        "proj": 4.048,
+        "sleeper_proj": 3.898,
+        "ecr_pts": 4.03,
+        "ecr_half_pts": 4.042,
+        "blend3_pts": 3.948,
+        "blend3_half_pts": 3.947
+      }
+    }
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "point_mae_by_position": {
+    "QB": {
+      "model": 5.815746684241819,
+      "last3_avg": 6.5287650046168055,
+      "ewm_avg": 6.218693602982572,
+      "season_avg": 6.333782281699525
+    },
+    "RB": {
+      "model": 4.126156462391371,
+      "last3_avg": 4.4296660773914756,
+      "ewm_avg": 4.210182737644284,
+      "season_avg": 4.263493830663542
+    },
+    "TE": {
+      "model": 3.0356805808517624,
+      "last3_avg": 3.3443864452150636,
+      "ewm_avg": 3.1289497535100326,
+      "season_avg": 3.18596415015497
+    },
+    "WR": {
+      "model": 3.8925631446588302,
+      "last3_avg": 4.168728037842487,
+      "ewm_avg": 3.9402047523448926,
+      "season_avg": 4.024830581536106
+    }
+  },
+  "floor_ceiling_coverage": 0.6949667397239205,
+  "ranking_by_position": {
+    "QB": {
+      "spearman_model": 0.33,
+      "pairwise_model": 0.6155,
+      "spearman_ecr": 0.33,
+      "pairwise_ecr": 0.6147,
+      "spearman_blend": 0.3401,
+      "pairwise_blend": 0.6193,
+      "spearman_last3": 0.2065,
+      "pairwise_last3": 0.5731
+    },
+    "RB": {
+      "spearman_model": 0.3986,
+      "pairwise_model": 0.6402,
+      "spearman_ecr": 0.4231,
+      "pairwise_ecr": 0.6487,
+      "spearman_blend": 0.4192,
+      "pairwise_blend": 0.6461,
+      "spearman_last3": 0.3115,
+      "pairwise_last3": 0.6068
+    },
+    "TE": {
+      "spearman_model": 0.2672,
+      "pairwise_model": 0.5952,
+      "spearman_ecr": 0.2569,
+      "pairwise_ecr": 0.5917,
+      "spearman_blend": 0.2686,
+      "pairwise_blend": 0.596,
+      "spearman_last3": 0.1181,
+      "pairwise_last3": 0.5407
+    },
+    "WR": {
+      "spearman_model": 0.3055,
+      "pairwise_model": 0.6062,
+      "spearman_ecr": 0.3551,
+      "pairwise_ecr": 0.6242,
+      "spearman_blend": 0.3403,
+      "pairwise_blend": 0.6182,
+      "spearman_last3": 0.2132,
+      "pairwise_last3": 0.5724
+    }
+  },
+  "ranking_by_season": {
+    "2022": {
+      "pairwise_model": 0.623,
+      "pairwise_ecr": 0.6238,
+      "pairwise_blend": 0.6277,
+      "pairwise_last3": 0.5782
+    },
+    "2023": {
+      "pairwise_model": 0.6088,
+      "pairwise_ecr": 0.6136,
+      "pairwise_blend": 0.613,
+      "pairwise_last3": 0.5703
+    },
+    "2024": {
+      "pairwise_model": 0.6158,
+      "pairwise_ecr": 0.6223,
+      "pairwise_blend": 0.6224,
+      "pairwise_last3": 0.5827
+    },
+    "2025": {
+      "pairwise_model": 0.6008,
+      "pairwise_ecr": 0.6102,
+      "pairwise_blend": 0.6077,
+      "pairwise_last3": 0.5652
+    },
+    "2026": {
+      "pairwise_model": 0.6295,
+      "pairwise_ecr": 0.6367,
+      "pairwise_blend": 0.6354,
+      "pairwise_last3": 0.5692
+    }
+  },
+  "n_ranked_player_weeks": 22194,
+  "weeks_compared": 72,
+  "model_beats_ecr_share_of_position_weeks": 0.4245614035087719
+}
