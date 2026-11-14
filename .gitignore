@@ -7,3 +7,4 @@ __pycache__/
 config.local.toml
 reports/week_*.md
 reports/log_*.txt
+reports/trades_*

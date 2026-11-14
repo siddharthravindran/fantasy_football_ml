@@ -112,6 +112,8 @@ nflverse (nflreadpy)                       Sleeper API (public)
 - **Lineup optimizer:** greedy fill from the most restrictive slot outward. This is exact for nested eligibility sets (QB ⊂ SUPER_FLEX, RB ⊂ FLEX…). Reads `roster_positions` from the league.
 - **Waivers:** for each free-agent candidate × each possible drop, the tool recomputes your optimal lineup's projected points over the next *N* weeks (default 4). Free agents are ranked by the gain. This answers "does this player make *my* team better?", not "who is good?". Lines for weeks without posted odds are estimated from both teams' season-average lines.
 
+- **Trade finder:** values every 1-for-1 swap, plus 2-for-1s that pair any player with one of your *surplus* players (those adding <3 lineup points). For both teams it measures the change in optimal-lineup points, split into regular season and fantasy playoffs. A deal is *realistic* when it helps you and costs the other team ≤1 point. Value is pure lineup math: depth-as-insurance, the other manager's own opinions, and roster cuts aren't modeled. Lineup scoring is a memoized pure-Python greedy, so a full scan of ~100 packages × 9 rosters takes seconds after the ~80 s projection build.
+
 ## Usage
 
 ```bash
@@ -121,6 +123,7 @@ python3.12 -m venv ~/venvs/fantasy-football
 python -m ffml.cli train                       # refresh data + retrain (auto-runs if model >6 days old)
 python -m ffml.cli backtest                    # reproduce the tables above (~1.5 min)
 python -m ffml.cli week --user <name> [--league <id>] [--horizon 4]
+python -m ffml.cli trades --user <name> [--give "Player A + Player B"] # trade finder (~1.5 min)
 ```
 
 The weekly report prints to the terminal and is saved to `reports/week_<season>_<week>.md`. Run it after Friday's injury report for the best inputs: injury features and ECR both update through the week.

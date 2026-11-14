@@ -135,6 +135,50 @@ def cmd_week(args):
     print(f"\nsaved -> {path}")
 
 
+def cmd_trades(args):
+    from . import trades
+    give_sets = None
+    if args.give:
+        give_sets = [[n.strip() for n in g.split("+")] for g in args.give]
+    r = trades.find_trades(args.user, give_sets=give_sets, league_id=args.league,
+                           regular_end=args.regular_end, playoff_end=args.playoff_end)
+    reg, po = r["weeks"]
+    span = lambda ws: f"wk {ws[0]}–{ws[-1]}" if ws else "—"
+    out = [f"# Trade finder — {r['league']['name']}\n",
+           f"Value = change in each team's optimal-lineup projected points (regular season {span(reg)}, "
+           f"playoffs {span(po)}). A deal is *realistic* when it helps you and costs them at most 1 point.\n",
+           "## What each of your players is worth to your lineup\n",
+           "| Player | Pos | Lost without him (reg) | (playoffs) |\n|---|---|---|---|"]
+    for _, x in r["surplus"].iterrows():
+        out.append(f"| {x['player']} | {x['pos']} | {x['loss_regular']:.1f} | {x['loss_playoffs']:.1f} |")
+
+    def table(df, title):
+        out.append(f"\n## {title}\n")
+        if df.empty:
+            out.append("_None found._"); return
+        out.append("| Give | Get | From | You (reg / playoffs) | Them (reg / playoffs) |\n|---|---|---|---|---|")
+        for _, x in df.iterrows():
+            out.append(f"| {x['give']} | {x['get']} ({x['get_pos']}) | {x['with']} | "
+                       f"{x['my_gain_reg']:+.1f} / {x['my_gain_playoffs']:+.1f} | "
+                       f"{x['their_gain_reg']:+.1f} / {x['their_gain_playoffs']:+.1f} |")
+
+    # one row per (get, team): the cheapest package that achieves it
+    real = r["realistic"].sort_values(["my_gain_total", "their_gain_total"], ascending=False)
+    table(real.drop_duplicates(["get", "with"]).head(args.top), "Realistic deals")
+    a = r["all"]
+    near = a[(a["my_gain_total"] > 3) & (a["their_gain_total"] < -1) & (a["their_gain_total"] >= -6)]
+    table(near.sort_values("my_gain_total", ascending=False).drop_duplicates(["get", "with"]).head(args.top),
+          "Near misses (they lose 1–6 pts; would need a sweetener)")
+    out.append("\n---\n*Counts only lineup points: ignores injury-insurance value of depth, the other manager's "
+               "own valuations, and roster-limit cuts in 2-for-1s.*")
+    text = "\n".join(out)
+    REPORTS.mkdir(exist_ok=True)
+    path = REPORTS / "trades_latest.md"
+    path.write_text(text)
+    print(text)
+    print(f"\nsaved -> {path}")
+
+
 def main():
     ap = argparse.ArgumentParser(prog="ffml")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -146,6 +190,16 @@ def main():
     w.add_argument("--horizon", type=int, default=4, help="weeks ahead for waiver value")
     w.add_argument("--waivers", type=int, default=15, help="waiver targets to show")
     w.set_defaults(fn=cmd_week)
+    t = sub.add_parser("trades", help="find 1-for-1 and 2-for-1 trades that help you without hurting them")
+    t.add_argument("--user", required=True, help="Sleeper username")
+    t.add_argument("--league", help="Sleeper league id")
+    t.add_argument("--give", action="append",
+                   help='package to offer, e.g. --give "D\'Andre Swift" --give "Rico Dowdle + Jordan Mason" '
+                        "(default: every player alone + 2-for-1s with your surplus players)")
+    t.add_argument("--regular-end", type=int, default=14, help="last regular-season week")
+    t.add_argument("--playoff-end", type=int, default=17, help="last fantasy playoff week")
+    t.add_argument("--top", type=int, default=12)
+    t.set_defaults(fn=cmd_trades)
     a = ap.parse_args()
     a.fn(a)
 
