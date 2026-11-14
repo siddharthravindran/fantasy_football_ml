@@ -8,3 +8,4 @@ config.local.toml
 reports/week_*.md
 reports/log_*.txt
 reports/trades_*
+reports/replay_*
