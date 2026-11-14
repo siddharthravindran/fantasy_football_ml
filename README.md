@@ -86,6 +86,17 @@ The features capture real signal. For example, CIN 2026 allows 6.9 yards per sho
 
 Most of this information is already absorbed elsewhere. Player usage shares × Vegas implied totals cover volume and pace, and points allowed by position plus Vegas cover matchup. The extra columns mostly gave the trees more room to fit noise. The code stays behind `USE_TENDENCIES` in [ffml/features.py](ffml/features.py), and the results are in `reports/*_tendencies_ablation.*`.
 
+### Ablation: current-role usage (rejected)
+
+When key teammates are out for weeks, the remaining players' recent usage blends their old and new roles. Example: Makai Lemon, 2026 PHI, had a 26.8% target share in the 3 games since Smith, Wicks and Ertz all sat, vs a 22.2% recent-weighted average. I tested features that measure usage only in earlier games with the *same* core teammates missing. "Core" means ≥12% target share. The absent set uses who actually played for completed games, and current statuses plus "missed 2+ straight games" for future games.
+
+| | QB | RB | WR | TE |
+|---|---|---|---|---|
+| MAE | +0.017 (n.s.) | −0.004 | **−0.012** | **−0.008** |
+| Live-blend start/sit accuracy | −0.20 pp | **−0.20 pp** | −0.07 pp | −0.16 pp |
+
+Point accuracy improved slightly for WR and TE, but start/sit rankings got slightly worse (significant at RB). The role shifts these features capture are rare and noisy, and the existing last-3-game averages already cover much of the effect. Code is behind `USE_ROLE`; results are in `reports/*_role_ablation.*`.
+
 ### Ablation: one model vs. separate models per position
 
 Separate per-position models (each with its own early-stopped round count) were slightly worse at every position. Pairwise accuracy was 0.05–0.5 pp lower and MAE 0.002–0.03 pts higher. Floor/ceiling calibration also degraded, from 69.7% to 66.5% coverage. Sharing data across positions helps more than specializing, especially for TE and QB (fewer rows). The live tool keeps the single model, with `position` as a categorical feature. Reproduce with `python -m ffml.backtest --per-position`.

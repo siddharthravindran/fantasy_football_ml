@@ -307,6 +307,89 @@ TENDENCY_COLS = (["plays_ewm", "pass_rate_neutral_ewm", "proe_ewm", "short_tgt_s
                  + ["adot_ewm", "def_depth_match_ypt"])
 
 
+CORE_SHARE = 0.12  # a "core" pass-catcher: recent target share >= 12%
+
+
+def role_features(rows: pd.DataFrame, games: pd.DataFrame, ph: pd.DataFrame,
+                  overrides: pd.DataFrame | None) -> pd.DataFrame:
+    """Usage *in the current role*: each player's usage over earlier games
+    where the same core teammates were missing.
+
+    A team-game's 'regime' = the set of core teammates (same team & season,
+    recent target share >= CORE_SHARE) who are absent. Completed games use who
+    actually played (inactives are announced pre-kickoff). Future games use
+    statuses: Out/Doubtful this week, and players already out 2+ straight
+    games are assumed to stay out (e.g. WR1 and WR2 both injured for weeks ->
+    the WR3's elevated role persists). Returns per-row features."""
+    skill = games[games["position"].isin(["RB", "WR", "TE"])]
+    member = skill[["player_id", "team", "season"]].drop_duplicates()
+    tg = rows[["season", "week", "team", "t"]].drop_duplicates()
+    cand = tg.merge(member, on=["team", "season"])
+    hist = ph[["player_id", "t", "h_season", "h_week", "h_team", "target_share_ewm"]].sort_values("t")
+    cand = pd.merge_asof(cand.sort_values("t"), hist, on="t", by="player_id", allow_exact_matches=False)
+    core = cand[(cand["h_season"] == cand["season"]) & (cand["h_team"] == cand["team"])
+                & (cand["target_share_ewm"] >= CORE_SHARE)].copy()
+
+    played = set(zip(games["player_id"], games["season"], games["week"]))
+    done = set(zip(games["season"], games["week"], games["team"]))
+    is_done = [(s, w, tm) in done for s, w, tm in zip(core["season"], core["week"], core["team"])]
+    core["completed"] = is_done
+    core["absent"] = [(p, s, w) not in played for p, s, w in zip(core["player_id"], core["season"], core["week"])]
+
+    # future games: absence from statuses
+    fut = ~core["completed"]
+    if fut.any():
+        out_now = set()
+        if overrides is not None and len(overrides):
+            o = overrides[overrides["status_code"] >= 2]
+            out_now = set(o["player_id"])
+        cur_week = core.loc[fut, "week"].min()
+        # already sat out the last 2+ team weeks -> assume the absence persists, with or
+        # without an injury tag (healthy scratches like a demoted TE carry no status).
+        # Trade-off: a player returning from a long absence with no tag also looks absent.
+        missed = (cur_week - core["h_week"]) >= 3
+        core.loc[fut, "absent"] = missed[fut] | (
+            core.loc[fut, "player_id"].isin(out_now) & (core.loc[fut, "week"] == cur_week))
+
+    ab = core[core["absent"]]
+    key = (ab.groupby(["season", "week", "team"])
+             .agg(rg_key=("player_id", lambda s: "|".join(sorted(s))),
+                  n_core_absent=("player_id", "size"),
+                  core_absent_share=("target_share_ewm", "sum"))
+             .reset_index())
+    tg = tg.merge(key, on=["season", "week", "team"], how="left")
+    tg["rg_key"] = tg["rg_key"].fillna("none")
+    tg[["n_core_absent", "core_absent_share"]] = tg[["n_core_absent", "core_absent_share"]].fillna(0)
+
+    # usage history keyed by (player, season, regime): inclusive EWMs, lagged by as-of join
+    g = games.merge(tg[["season", "week", "team", "rg_key"]], on=["season", "week", "team"], how="left")
+    g["rg_key"] = g["rg_key"].fillna("none")
+    g = g.sort_values(["player_id", "season", "rg_key", "t"])
+    grp = g.groupby(["player_id", "season", "rg_key"], sort=False)
+    rh = pd.DataFrame({
+        "player_id": g["player_id"], "season_rg": g["season"], "rg_key": g["rg_key"], "t": g["t"],
+        "rg_target_share_ewm": grp["target_share"].transform(lambda s: s.astype(float).ewm(halflife=3, ignore_na=True).mean()),
+        "rg_offense_pct_ewm": grp["offense_pct"].transform(lambda s: s.astype(float).ewm(halflife=3, ignore_na=True).mean()),
+        "rg_pts_ewm": grp["pts"].transform(lambda s: s.ewm(halflife=3).mean()),
+        "rg_games": grp.cumcount() + 1,
+    }).sort_values("t")
+    out = rows[["player_id", "season", "week", "team", "t"]].merge(
+        tg[["season", "week", "team", "rg_key", "n_core_absent", "core_absent_share"]],
+        on=["season", "week", "team"], how="left")
+    out["rg_key"] = out["rg_key"].fillna("none")
+    out["season_rg"] = out["season"]
+    out = pd.merge_asof(out.sort_values("t"), rh, on="t", by=["player_id", "season_rg", "rg_key"],
+                        allow_exact_matches=False)
+    out["rg_games"] = out["rg_games"].fillna(0)
+    return out[["player_id", "season", "week", "rg_target_share_ewm", "rg_offense_pct_ewm",
+                "rg_pts_ewm", "rg_games", "n_core_absent", "core_absent_share"]]
+
+
+ROLE_COLS = ["rg_target_share_ewm", "rg_offense_pct_ewm", "rg_pts_ewm", "rg_games",
+             "n_core_absent", "core_absent_share", "rg_share_diff"]
+USE_ROLE = False  # tested 2026-11-14: WR/TE MAE slightly better, live-blend ranking slightly worse (see README)
+
+
 def attach_features(rows: pd.DataFrame, games: pd.DataFrame,
                     injury_overrides: pd.DataFrame | None = None) -> pd.DataFrame:
     ph = player_history(games).sort_values("t")
@@ -324,6 +407,12 @@ def attach_features(rows: pd.DataFrame, games: pd.DataFrame,
     r["wq_games"] = r["wq_games"].fillna(0)
     r["qb_n_games"] = r["qb_n_games"].fillna(0)
     r["wq_share_diff"] = r["wq_target_share_ewm"] - r["target_share_ewm"]
+
+    # usage in the current role (same core teammates missing)
+    if USE_ROLE:
+        rf = role_features(r, games, ph, injury_overrides)
+        r = r.merge(rf, on=["player_id", "season", "week"], how="left")
+        r["rg_share_diff"] = r["rg_target_share_ewm"] - r["target_share_ewm"]
 
     # offensive / defensive coordinator tendencies
     if USE_TENDENCIES:
@@ -369,6 +458,8 @@ def feature_columns() -> list[str]:
     ] + [f"team_vacated_{c}" for c in VACATED_COLS] + QB_COLS
     if USE_TENDENCIES:
         cols += TENDENCY_COLS
+    if USE_ROLE:
+        cols += ROLE_COLS
     return cols
 
 
