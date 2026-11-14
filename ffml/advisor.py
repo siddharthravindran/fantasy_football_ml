@@ -63,9 +63,23 @@ def project(sp: pd.DataFrame, models: dict, season: int, week: int) -> pd.DataFr
     p = p.merge(skill[["player_id", "sleeper_id"]].rename(columns={"sleeper_id": "sid"}),
                 on="player_id", how="inner")
     p["sleeper_id"] = p["sid"]
+    # week of the player's most recent game this season (NaN if none) -> recency checks
+    p["last_played_week"] = (p["week"] - p["weeks_since_last"]).where(p["weeks_since_last"].notna())
     return p[["sleeper_id", "player_id", "week", "team", "opp", "home", "implied_total",
               "line_imputed", "own_status", "proj", "floor", "ceiling", "xfp_l3", "xfp_l8",
-              "pts_l3", "n_games"]]
+              "pts_l3", "n_games", "last_played_week", "offense_pct_last"]]
+
+
+def active_role(df: pd.DataFrame, current_week: int, injury_col: str = "injury_status") -> pd.Series:
+    """Is this player's projection backed by a *current* role? Healthy, played
+    within the last 2 weeks (allows a bye), and on the field for >=25% of snaps
+    last game. The model projects from rolling history, so a back who lost his
+    job two weeks ago (0 carries since) still projects well — exclude those as
+    waiver targets and as trade 'replacement level'."""
+    healthy = df[injury_col].isna() | (df[injury_col] == "")
+    recent = df["last_played_week"] >= current_week - 2
+    on_field = df["offense_pct_last"].fillna(0) >= 0.25
+    return healthy & recent & on_field
 
 
 def ecr_points(week_proj: pd.DataFrame, sp: pd.DataFrame) -> pd.DataFrame:
@@ -191,7 +205,9 @@ def run(username: str, league_id: str | None = None, horizon: int = 4,
     fa = ros[ros["sleeper_id"].isin(fa_ids)].groupby("sleeper_id").agg(
         h_pts=("proj", "sum"), games=("proj", "size"), xfp_l3=("xfp_l3", "first"), xfp_l8=("xfp_l8", "first"))
     fa = fa.join(sp.set_index("sleeper_id")[["full_name", "position", "team", "injury_status"]])
-    cand = fa.sort_values("h_pts", ascending=False).groupby("position").head(15)
+    act = ros[ros["week"] == ros["week"].min()].set_index("sleeper_id")
+    act = active_role(act, week).reindex(fa.index).fillna(False)
+    cand = fa[act].sort_values("h_pts", ascending=False).groupby("position").head(15)
     trending = sleeper.trending_adds()
     recs = []
     for sid, row in cand.iterrows():
