@@ -8,6 +8,8 @@ reported separately, since a title run cares more about weeks 15-17.
 """
 from __future__ import annotations
 
+import math
+
 import numpy as np
 import pandas as pd
 
@@ -30,8 +32,21 @@ def _league_projections(season: int, first_week: int, last_week: int) -> pd.Data
     return proj
 
 
+def playoff_weeks(lg: dict) -> tuple[int, int]:
+    """(last regular-season week, last playoff week) from Sleeper settings.
+    playoff_round_type: 0 = one week per round, 1 = two-week final,
+    2 = two weeks per round. Rounds = ceil(log2(playoff_teams))."""
+    st = lg.get("settings", {})
+    start = int(st.get("playoff_week_start") or 15)
+    teams = int(st.get("playoff_teams") or 4)
+    rounds = max(1, math.ceil(math.log2(teams)))
+    rtype = int(st.get("playoff_round_type") or 0)
+    length = rounds + (1 if rtype == 1 else 0) if rtype != 2 else 2 * rounds
+    return start - 1, start + length - 1
+
+
 def find_trades(username: str, give_sets: list[list[str]] | None = None, league_id: str | None = None,
-                regular_end: int = 14, playoff_end: int = 17, min_their_gain: float = -1.0,
+                regular_end: int | None = None, playoff_end: int | None = None, min_their_gain: float = -1.0,
                 replacement_depth: int = 1) -> dict:
     """`replacement_depth`: how many of the best free agents per position (per
     week) every team may plug in. Without this, a player who only covers a bye
@@ -40,6 +55,9 @@ def find_trades(username: str, give_sets: list[list[str]] | None = None, league_
     st = sleeper.state()
     season, week = int(st["season"]), int(st["week"])
     lg, my = sleeper.resolve_league(username, season, league_id)
+    auto_reg, auto_po = playoff_weeks(lg)
+    regular_end = regular_end or auto_reg
+    playoff_end = playoff_end or auto_po
     first = week + 1  # this week's lineups are effectively set
     slots = [s for s in lg["roster_positions"] if s in advisor.SLOT_ELIGIBLE and s not in ("K", "DEF")]
     proj = _league_projections(season, first, playoff_end)

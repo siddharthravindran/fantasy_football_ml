@@ -196,8 +196,8 @@ def main():
     t.add_argument("--give", action="append",
                    help='package to offer, e.g. --give "D\'Andre Swift" --give "Rico Dowdle + Jordan Mason" '
                         "(default: every player alone + 2-for-1s with your surplus players)")
-    t.add_argument("--regular-end", type=int, default=14, help="last regular-season week")
-    t.add_argument("--playoff-end", type=int, default=17, help="last fantasy playoff week")
+    t.add_argument("--regular-end", type=int, help="last regular-season week (default: from league settings)")
+    t.add_argument("--playoff-end", type=int, help="last fantasy playoff week (default: from league settings)")
     t.add_argument("--top", type=int, default=12)
     t.set_defaults(fn=cmd_trades)
     a = ap.parse_args()
